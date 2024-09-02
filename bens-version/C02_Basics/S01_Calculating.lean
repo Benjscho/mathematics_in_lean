@@ -117,8 +117,16 @@ example : (a + b) * (c + d) = a * c + a * d + b * c + b * d :=
     _ = a * c + a * d + b * c + b * d := by
       rw [← add_assoc, add_assoc (a * c), add_comm (b * c), ← add_assoc]
 
-example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
-  sorry
+example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 :=
+  calc 
+    (a + b) * (a - b) = (a + b) * a - (a + b) * b := by
+      rw [mul_sub]
+    _ = a ^ 2 + a * b - (a * b + b ^ 2) := by
+      rw [add_mul, add_mul, mul_comm b a, ← pow_two a, ← pow_two b] 
+    _ = a ^ 2 + a * b - a * b - b ^ 2 := by
+      rw [sub_sub] 
+    _ = a ^ 2 - b ^ 2 := by
+      rw [← add_sub, sub_self, add_zero]
 
 #check pow_two a
 #check mul_sub a b c
